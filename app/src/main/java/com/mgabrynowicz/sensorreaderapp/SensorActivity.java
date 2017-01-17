@@ -34,7 +34,7 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
 
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
         }
 
         FileManager.instance.openOutputStreamWriter();
@@ -49,6 +49,19 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
